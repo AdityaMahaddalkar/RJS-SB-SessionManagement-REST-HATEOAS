@@ -7,6 +7,8 @@ import com.restdemo.restfulservice.entity.Status;
 import com.restdemo.restfulservice.repository.CustomerRepository;
 import com.restdemo.restfulservice.repository.EmployeeRepository;
 import com.restdemo.restfulservice.repository.OrderRepository;
+import com.restdemo.restfulservice.security.entity.User;
+import com.restdemo.restfulservice.security.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -47,6 +49,14 @@ public class LoadDatabase {
             log.info("Preloading " + customerRepository.save(new Customer("Terry", "Crews")));
             log.info("Preloading " + customerRepository.save(new Customer("Amy", "Santiago")));
             log.info("Preloading " + customerRepository.save(new Customer("Charles", "Boyle")));
+        };
+    }
+
+    @Bean
+    CommandLineRunner initUsersDatabase(UserRepository userRepository) {
+        return args -> {
+            log.info("Preloading " + userRepository.save(new User("admin1", "adminpass", "admin@email.com", "ADMIN")));
+            log.info("Preloading " + userRepository.save(new User("user1", "userpass", "user@email.com", "USER")));
         };
     }
 }

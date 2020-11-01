@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -19,6 +20,7 @@ public class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @WithMockUser(roles = "USER")
     @Test
     public void getAllOrdersReturnsStatusOk() throws Exception {
         mockMvc.perform(get("/orders"))
@@ -26,6 +28,7 @@ public class OrderControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     public void getOrderByIdPresentReturnsStatusOkAndOrderObject() throws Exception {
         mockMvc.perform(get("/orders/4"))
@@ -34,12 +37,14 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.id").value(4));
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     public void getOrderByIdAbsentReturnsStatusInternalServerError() throws Exception {
         mockMvc.perform(get("/orders/-100"))
                 .andExpect(status().isInternalServerError());
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     void postNewOrderReturnsStatusOkAndOrderObject() throws Exception {
         String requestBody = "{ \"description\": \"Oranges\" }";
@@ -49,6 +54,7 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.description").value("Oranges"));
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     void putStatusCompleteOfOrderPresentReturnsStatusOk() throws Exception {
         mockMvc.perform(put("/orders/5/complete"))
@@ -57,6 +63,7 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.status").value("COMPLETED"));
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     void putStatusCompleteOfOrderAbsentReturnsInternalServerError() throws Exception {
         mockMvc.perform(put("/orders/-100/complete"))
@@ -64,6 +71,7 @@ public class OrderControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     void putStatusCompleteOfOrderCompletedOrCancelledReturnsMethodNotAllowed() throws Exception {
         mockMvc.perform(put("/orders/7/complete"))
@@ -73,6 +81,7 @@ public class OrderControllerTest {
                 .andExpect(status().isMethodNotAllowed());
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     void deleteStatusCancelOfOrderPresentReturnsStatusOk() throws Exception {
         mockMvc.perform(delete("/orders/6/delete"))
@@ -80,6 +89,7 @@ public class OrderControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     void deleteStatusCancelOfOrderAbsentReturnsInternalServerError() throws Exception {
         mockMvc.perform(delete("/orders/-100/delete"))
@@ -87,6 +97,7 @@ public class OrderControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
+    @WithMockUser(roles = "USER")
     @Test
     void deleteStatusCancelOfOrderCancelledOrCompleteReturnsMethodNotAllowed() throws Exception {
         mockMvc.perform(delete("/orders/8/delete"))

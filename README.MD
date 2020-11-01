@@ -7,6 +7,6 @@ React JS + Spring Boot application backend using REST = (JSON + HAL)
 [![Build Status](https://travis-ci.com/AdityaMahaddalkar/RJS-SB-SessionManagement-REST-HATEOAS.svg?branch=master)](https://travis-ci.com/AdityaMahaddalkar/RJS-SB-SessionManagement-REST-HATEOAS)
 
 ### Todos
-- Add redis session management backend
-- Add Spring Session API
-- Add Spring Authentication API
+- [x] Spring Security With JPA based authentication and authorization
+- [ ] Add redis session management backend
+- [ ] Add Spring Session API
