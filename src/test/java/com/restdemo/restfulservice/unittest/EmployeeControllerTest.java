@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -18,6 +19,7 @@ public class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @WithMockUser(roles = "ADMIN")
     @Test
     public void getAllEmployeesShouldReturnStatusOk() throws Exception {
         mockMvc.perform(get("/employees"))
@@ -26,6 +28,7 @@ public class EmployeeControllerTest {
                 .andExpect(content().contentType("application/hal+json"));
     }
 
+    @WithMockUser(roles = "ADMIN")
     @Test
     public void getEmployeeByIdPresentShouldReturnStatusOk() throws Exception {
         mockMvc.perform(get("/employees/1"))
@@ -35,6 +38,7 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.id").value(1));
     }
 
+    @WithMockUser(roles = "ADMIN")
     @Test
     public void getEmployeeByIdAbsentShouldReturnInternalServerError() throws Exception {
         mockMvc.perform(get("/employees/4999"))
@@ -42,6 +46,7 @@ public class EmployeeControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
+    @WithMockUser(roles = "ADMIN")
     @Test
     public void postEmployeeShouldReturnStatusCreated() throws Exception {
         String requestBody = "{ \"name\": \"Smaug\", \"role\": \"Dragon\" }";
@@ -52,6 +57,7 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.role").value("Dragon"));
     }
 
+    @WithMockUser(roles = "ADMIN")
     @Test
     public void deleteEmployeePresentShouldReturnStatusOk() throws Exception {
         mockMvc.perform(delete("/employees/2"))
@@ -59,6 +65,7 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(roles = "ADMIN")
     @Test
     public void deleteEmployeeAbsentShouldReturnInternalServerError() throws Exception {
         mockMvc.perform(delete("/employees/100093"))
