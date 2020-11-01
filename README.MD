@@ -9,4 +9,3 @@ React JS + Spring Boot application backend using REST = (JSON + HAL)
 - Add redis session management backend
 - Add Spring Session API
 - Add Spring Authentication API
-- 
